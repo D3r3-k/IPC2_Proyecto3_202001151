@@ -1,0 +1,33 @@
+# Archivos y directorios generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entorno virtual de Python
+venv/
+env/
+
+# Dependencias instaladas
+lib/
+lib64/
+bin/
+include/
+share/
+
+# Archivos de configuración local
+*.env
+*.ini
+*.log
+
+# Archivos de respaldo y temporales
+*.bak
+*.swp
+*.tmp
+*.temp
+
+# Archivos de registro
+*.log
+
+# Archivos de caché que esten en cualquier subcarpeta
+*/__pycache__/

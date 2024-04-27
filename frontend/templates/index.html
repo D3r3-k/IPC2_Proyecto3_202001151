@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+{% include 'components/head.html' with title="Inicio | ITGSA" %}
+
+<body>
+    <div class="main">
+        {% include 'components/sidebar.html' %}
+        <article>
+            {% include 'components/header.html' %}
+            <main>
+                <section class="body">
+                    <div class="grid-cards">
+                        {% include 'components/card.html' with icon="users" title="Usuarios" count=clientes %}
+                        {% include 'components/card.html' with icon="banks" title="Bancos" count=bancos %}
+                        {% include 'components/card.html' with icon="money" title="Dinero" count=dinero_total %}
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h1>Configurar</h1>
+                    <p>Configura la base de datos para empezar a usar el sistema, empieza subiendo los archivos de configuración.</p>
+                    <div class="config">
+                        <form method="post" enctype="multipart/form-data">
+                            <label for="file">Subir Archivo de Configuración</label>
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-filetype-xml" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z" />
+                                </svg>
+                            </div>
+                            <input required class="file" type="file" name="file" id="file" accept=".xml">
+                            <button type="submit">Subir</button>
+                        </form>
+                        <form method="post" enctype="multipart/form-data">
+                            <label for="file">Subir Archivo de Transacciones</label>
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-filetype-xml" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z" />
+                                </svg>
+                            </div>
+                            <input required class="file" type="file" name="file" id="file" accept=".xml">
+                            <button type="submit">Subir</button>
+                        </form>
+                    </div>
+                </section>
+
+            </main>
+        </article>
+    </div>
+</body>
+
+</html>
