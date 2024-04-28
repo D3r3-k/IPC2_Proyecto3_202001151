@@ -22,7 +22,7 @@
                     <div class="card">
                         <h1>Eliminar</h1>
                         <p>Elimina todos los datos de la base de datos para empezar de nuevo.</p>
-                        <form action="/response" method="post">
+                        <form method="post" id="form_delete">
                             <button type="submit">Eliminar</button>
                         </form>
                     </div>
@@ -33,7 +33,7 @@
                     <p>Configura la base de datos para empezar a usar el sistema, empieza subiendo los archivos de
                         configuración.</p>
                     <div class="config">
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" id="form_config">
                             <label for="file">Subir Archivo de Configuración</label>
                             <div class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -42,10 +42,10 @@
                                         d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z" />
                                 </svg>
                             </div>
-                            <input required class="file" type="file" name="file" id="file" accept=".xml">
+                            <input required class="file" type="file" name="file_config" id="file_config" accept=".xml">
                             <button type="submit">Subir</button>
                         </form>
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" id="form_update">
                             <label for="file">Subir Archivo de Transacciones</label>
                             <div class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -54,15 +54,15 @@
                                         d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.527 11.85h-.893l-.823 1.439h-.036L.943 11.85H.012l1.227 1.983L0 15.85h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm.954 3.999v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596h-.025L4.58 11.85h-.806v3.999zm4.71-.674h1.696v.674H8.4V11.85h.791z" />
                                 </svg>
                             </div>
-                            <input required class="file" type="file" name="file" id="file" accept=".xml">
+                            <input required class="file" type="file" name="file_update" id="file_update" accept=".xml">
                             <button type="submit">Subir</button>
                         </form>
                     </div>
                 </section>
-
             </main>
         </article>
     </div>
+    <script src="{% static 'js/index.js' %}"></script>
 </body>
 
 </html>
