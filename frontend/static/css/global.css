@@ -150,13 +150,14 @@ article {
     position: relative;
 
     main {
+        position: relative;
         padding: 2rem;
         height: 100%;
 
         .body {
             .grid-cards {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
                 gap: 1.5rem;
                 margin-top: 1.5rem;
             }
@@ -633,4 +634,243 @@ header {
         }
     }
 
+}
+
+
+
+/* MODAL */
+/* Estilos del modal */
+.modal {
+    display: none;
+    /* Ocultar el modal por defecto */
+    position: absolute;
+    /* Posición fija para que se mantenga en la pantalla */
+    z-index: 1;
+    /* Colocar el modal por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Habilitar el desplazamiento si el contenido del modal es demasiado largo */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo oscuro semi-transparente */
+}
+
+/* Estilos del contenido del modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* Centrar verticalmente el modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 50%;
+
+    textarea {
+        width: 100%;
+        height: 100%;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        resize: none;
+        border-color: #E5E7EB;
+
+    }
+}
+
+/* Estilos del botón de cierre del modal */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+#pagination {
+    margin-top: 20px;
+}
+
+.pageNumber {
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+input#search {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    background-color: #F9FAFB;
+    color: #64748B;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    border: none;
+    outline: none;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+/* diseño para imprimir haciendo desaparecer el asaid y header */
+@media print {
+    aside {
+        display: none;
+    }
+
+    header {
+        display: none;
+    }
+
+    .main {
+        display: block;
+    }
+
+    .section {
+        border: none;
+        box-shadow: none;
+    }
+
+    .card {
+        border: none;
+        box-shadow: none;
+    }
+
+    .config {
+        border: none;
+        box-shadow: none;
+    }
+
+    .center-display {
+        display: block;
+    }
+
+    .datos {
+        padding: 0;
+    }
+
+    .profile {
+        border: none;
+        box-shadow: none;
+    }
+
+    .borrar {
+        display: none;
+    }
+
+    #regresar {
+        display: none;
+    }
+    .printer_button {
+        display: none;
+    }
+}
+
+.printer {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .printer_button {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #5D86F0;
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            svg {
+                fill: #fff;
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+}
+
+
+.section.graficar{
+    display: flex;
+    flex-direction: column;
+    form{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        input{
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #F9FAFB;
+            color: #64748B;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 400;
+            border: none;
+            outline: none;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #5D86F0;
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            justify-content: flex-end;
+        }
+    }
 }

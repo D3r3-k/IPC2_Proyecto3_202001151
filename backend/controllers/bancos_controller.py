@@ -46,11 +46,10 @@ def buscar_banco_fecha():
     try:
         data = xmltodict.parse(request.data)
         fecha = data['banco']['fecha']
+        print(fecha)
         lista_bancos = obtener_ingresos_por_fecha(fecha)
-
         dic_xml = dicttoxml.dicttoxml(
-            lista_bancos, custom_root="respuesta", attr_type=False)
-        dic_xml = dic_xml.replace(b'item', b'ingreso')
+            lista_bancos, custom_root="respuesta", attr_type=False, item_func=lambda x: 'ingreso' if x == 'ingresos' else 'bancos')
         return dic_xml, 200, {'Content-Type': 'application/xml'}
     except Exception as e:
         dic_res = {
@@ -135,7 +134,7 @@ def obtener_ingresos_por_banco(fecha: str, banco: Banco):
 
 
 def obtener_ingresos_por_fecha(fecha: str):
-    fecha = datetime.strptime(fecha, '%d/%m/%Y')
+    fecha = datetime.strptime(fecha, '%Y-%m')
     meses = []
     for i in range(3):
         mes = fecha.month - i
@@ -158,21 +157,19 @@ def obtener_ingresos_por_fecha(fecha: str):
 
             ingreso_mes = {
                 "mes": mes_str,
-                "fecha": [],
                 "valor": 0
             }
 
             for transaccion in app.config['db_transacciones']:
                 if isinstance(transaccion, Pago):
                     transaccion: Pago
-                    transaccion_fecha = datetime.strptime(
-                        transaccion.fecha, '%d/%m/%Y')
+                    transaccion_fecha = datetime.strptime(transaccion.fecha, '%d/%m/%Y') # Convert the date format temporarily
 
                     if mes <= transaccion_fecha <= mes + timedelta(days=31):
-                        ingreso_mes["fecha"].append(transaccion.fecha)
                         ingreso_mes["valor"] += transaccion.valor
 
             ingresos_banco["ingresos"].append(ingreso_mes)
+            
 
         saldo_final = ingresos_banco["saldo_final"]
         for ingreso_mes in ingresos_banco["ingresos"]:
@@ -181,5 +178,6 @@ def obtener_ingresos_por_fecha(fecha: str):
         ingresos_banco["saldo_final"] = saldo_final
 
         lista_ingresos_por_banco.append(ingresos_banco)
+        
 
     return lista_ingresos_por_banco

@@ -15,9 +15,11 @@
                         {% include 'components/card.html' with icon="users" title="Usuarios" count=clientes %}
                         {% include 'components/card.html' with icon="banks" title="Bancos" count=bancos %}
                         {% include 'components/card.html' with icon="money" title="Dinero" count=dinero_total %}
+                        {% include 'components/card.html' with icon="transactions" title="Transacciones" count=transactions %}
                     </div>
                 </section>
 
+                {% include 'components/modal.html' %}
                 <section class="borrar">
                     <div class="card">
                         <h1>Eliminar</h1>

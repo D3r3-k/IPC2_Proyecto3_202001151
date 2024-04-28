@@ -21,8 +21,6 @@ def index():
                 "nit": cliente.nit,
                 "nombre": cliente.nombre,
                 "saldo": cliente.saldo,
-                "facturas": cliente.facturas,
-                "pagos": cliente.pagos,
             }
             res_clientes.append(res_cliente)
 

@@ -31,7 +31,8 @@ def get():
     dic_res = {
         "clientes": len(clientes),
         "bancos": len(bancos),
-        "dinero_total": dinero_total
+        "dinero_total": dinero_total,
+        "transacciones": len(app.config['db_transacciones'])
     }
     return dicttoxml.dicttoxml(dic_res, custom_root="respuesta", attr_type=False), 200, {'Content-Type': 'application/xml'}
 
@@ -282,8 +283,6 @@ def put():
 
             nuevo_pago = Pago(_banco.codigo, fecha, _cliente.nit, valor)
             if nuevo_pago in db_transacciones:
-                _banco.saldo += valor
-                _cliente.saldo += valor
                 pagos_duplicados += 1
                 db_transacciones.append(nuevo_pago)
             else:

@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'components/head.html' with title="Datos del cliente | ITGSA" %}
+
+<body>
+    <div class="main">
+        {% include 'components/sidebar.html' %}
+        <article>
+            {% include 'components/header.html' %}
+            <main class="datos">
+                <div id="regresar">
+                    <a href="/clientes/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                        </svg>
+                    </a>
+                    <h1>Regresar</h1>
+                </div>
+                <section class="section" id="transacciones">
+                    <h2>Información</h2>
+                    <div class="card printer">
+                        <div class="card-body">
+                            <p><strong>NIT:</strong> {{cliente.nit}}</p>
+                            <p><strong>Nombre:</strong> {{cliente.nombre}}</p>
+                            <p><strong>Saldo:</strong> {{cliente.saldo}}</p>
+                        </div>
+                        <div class="printer_button">
+                            <button onclick="window.print()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-printer" viewBox="0 0 16 16">
+                                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                                    <path
+                                        d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1" />
+                                </svg>
+                                Imprimir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Transacciones</h2>
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Código</th>
+                                        <th>Cargo</th>
+                                        <th>Abono</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for t in cliente.transacciones.transaccion %}
+                                    <tr>
+                                        <td>{{ t.fecha }}</td>
+                                        <td>{{ t.tipo }}</td>
+                                        {% if t.tipo == 'Factura' %}
+                                        <td>{{ t.numFactura }}</td>
+                                        <!-- else if -->
+                                        {% else %}
+                                        <td>{{ t.codigoBanco }}</td>
+                                        {% endif %}
+                                        {% if t.tipo == 'Factura' %}
+                                        <td style="color: crimson;">{{ t.valor }}</td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if t.tipo == 'Pago' %}
+                                        <td style="color: rgb(30, 179, 0);">{{ t.valor }}</td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </article>
+    </div>
+</body>
+
+</html>

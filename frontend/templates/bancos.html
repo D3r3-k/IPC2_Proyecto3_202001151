@@ -10,24 +10,135 @@
         <article>
             {% include 'components/header.html' %}
             <main>
-                <section class="body">
-                    <div class="grid-cards">
-                        {% include 'components/card.html' with icon="users" title="Usuarios" count=clientes %}
-                        {% include 'components/card.html' with icon="banks" title="Bancos" count=bancos %}
-                        {% include 'components/card.html' with icon="money" title="Dinero" count=dinero_total %}
-                    </div>
+                <h1>Ver reporte de bancos</h1>
+                <section class="section graficar">
+                    <h2>Selecciona el mes</h2>
+                    <form action="" method="post">
+                        <label for="mes">Mes</label>
+                        <input type="month" name="mes" id="mes">
+                        <button type="submit">Ver reporte</button>
+                    </form>
                 </section>
-
-                <section class="config">
-                    <h1>Configurar</h1>
-                    <p>
-                        <!-- <a href="{% url 'clientes' %}">Clientes</a> -->
-                    </p>
+                <section class="section">
+                    <h2>Reporte de bancos</h2>
+                    <canvas id="grafica"></canvas>
                 </section>
 
             </main>
         </article>
     </div>
+
+    <script defer>
+
+        const input_mes = document.getElementById('mes');
+        const form = document.querySelector('form');
+        const mes = input_mes.value;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const mes = input_mes.value;
+            console.log(mes);
+
+            // crear un fetch de tipo post para enviar el mes en formato xml, donde su root es banco y su etiqueda es fecha
+            fetch('http://localhost:5000/api/v1/bancos/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/xml',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: formatXML(`<banco><fecha>${mes}</fecha></banco>`),
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data) {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(data, "text/xml");
+                        const bancos = xmlDoc.querySelectorAll('bancos');
+                        const lista_meses = [];
+                        const lista_bancos = [];
+                        const datos_ventas = [];
+                        for (const i of bancos) {
+                            const nombre = i.querySelector('nombre').textContent;
+                            lista_bancos.push(nombre);
+                            const saldo_final = i.querySelector('saldo_final').textContent;
+                            const ingresos = i.querySelectorAll('ingresos');
+                            const lista_valores = [];
+                            for (const j of ingresos) {
+                                const ingreso = j.querySelectorAll('ingreso');
+                                for (const k of ingreso) {
+                                    const mes = k.querySelector('mes');
+                                    const valor = k.querySelector('valor');
+                                    if (!lista_meses.includes(mes.textContent)) {
+                                        lista_meses.push(mes.textContent);
+                                    }
+                                    lista_valores.push(parseInt(valor.textContent));
+                                }
+                            }
+                            // se agrega el objeto con los datos de la grafica
+                            const bg = generarColorRGBA();
+                            datos_ventas.push({
+                                label: nombre,
+                                data: lista_valores,
+                                backgroundColor: bg,
+                                borderColor: bg,
+                                borderWidth: 1
+                            });
+                            // Generar colores aleatorios RGBA
+                            function generarColorRGBA() {
+                                const r = Math.floor(Math.random() * 256);
+                                const g = Math.floor(Math.random() * 256);
+                                const b = Math.floor(Math.random() * 256);
+                                const a = Math.random().toFixed(1);
+                                return `rgba(${r}, ${g}, ${b}, ${a})`;
+                            }
+                        }
+
+
+
+
+                        generarGrafica(lista_meses, datos_ventas);
+                    } else {
+                        console.log('No hay datos');
+                    }
+                })
+                .catch(error => console.error(error));
+
+        });
+
+
+
+        function generarGrafica(bancos, datos_ventas) {
+            // Obtener una referencia al elemento canvas del DOM
+            const $grafica = document.querySelector("#grafica");
+            // Las etiquetas son las que van en el eje X.
+            const etiquetas = bancos;
+
+
+            new Chart($grafica, {
+                type: 'bar',// Tipo de gráfica
+                data: {
+                    labels: etiquetas,
+                    datasets: datos_ventas
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                    },
+                }
+            });
+        }
+    </script>
+    <script defer>
+        function formatXML(xmlString) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            const formattedXML = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+            return formattedXML;
+        }
+    </script>
 </body>
 
 </html>

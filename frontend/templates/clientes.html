@@ -10,24 +10,64 @@
         <article>
             {% include 'components/header.html' %}
             <main>
-                <section class="body">
-                    <div class="grid-cards">
-                        {% include 'components/card.html' with icon="users" title="Usuarios" count=clientes %}
-                        {% include 'components/card.html' with icon="banks" title="Bancos" count=bancos %}
-                        {% include 'components/card.html' with icon="money" title="Dinero" count=dinero_total %}
-                    </div>
-                </section>
+                <h1>Clientes</h1>
+                <section class="section">
+                    <input type="text" id="search" oninput="search()" placeholder="Buscar cliente...">
+                    <table id="paginatedTable">
+                        <thead>
+                            <tr>
+                                <th>NIT</th>
+                                <th>Nombre</th>
+                                <th>Saldo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
 
-                <section class="config">
-                    <h1>Configurar</h1>
-                    <p>
-                        <!-- <a href="{% url 'clientes' %}">Clientes</a> -->
-                    </p>
+                            {% for cliente in clientes %}
+                            <tr>
+                                <td>{{ cliente.nit }}</td>
+                                <td>{{ cliente.nombre }}</td>
+                                <td>{{ cliente.saldo }}</td>
+                                <td><a href="{% url 'clientes' %}{{cliente.nit}}">Ver</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div id="pagination"></div>
                 </section>
-
             </main>
         </article>
     </div>
+    <script defer>
+        // filtrar tabla por NIT
+        function search() {
+            let input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("paginatedTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                let found = false;
+                for (let j = 0; j < td.length; j++) {
+                    let cell = td[j];
+                    if (cell) {
+                        txtValue = cell.textContent || cell.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (found || i === 0) { // Exclude the first row (header row) from the search filter
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

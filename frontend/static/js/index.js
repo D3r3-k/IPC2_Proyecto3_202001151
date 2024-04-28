@@ -23,13 +23,12 @@ form_delete.addEventListener('submit', async (e) => {
                 }
             })
             .then(data => {
-                const rexml = new DOMParser().parseFromString(data, 'application/xml');
-                alert(rexml.getElementsByTagName('mensaje').item(0).textContent);
-                window.location.reload();
+                const xml = formatXML(data);
+                openModal(xml);
             })
             .catch(error => {
-                const rexml = new DOMParser().parseFromString(error, 'application/xml');
-                alert(rexml.getElementsByTagName('mensaje').item(0).textContent);
+                const xml = formatXML(error);
+                openModal(xml);
             })
     }
     fetchData();
@@ -56,11 +55,12 @@ form_config.addEventListener('submit', async (e) => {
                 }
             })
             .then(data => {
-                alert(data);
-                window.location.reload();
+                const xml = formatXML(data);
+                openModal(xml);
             })
             .catch(error => {
-                alert(error);
+                const xml = formatXML(error);
+                openModal(xml);
             })
     }
     await fetchData();
@@ -87,11 +87,12 @@ form_update.addEventListener('submit', async (e) => {
                 }
             })
             .then(data => {
-                alert(data);
-                window.location.reload();
+                const xml = formatXML(data);
+                openModal(xml);
             })
             .catch(error => {
-                alert(error);
+                const xml = formatXML(error);
+                openModal(xml);
             })
     }
     await fetchData();
@@ -104,13 +105,36 @@ function leerArchivo(archivo) {
             reject('Archivo no encontrado');
         }
         var lector = new FileReader();
-        lector.onload = function(e) {
+        lector.onload = function (e) {
             var contenido = e.target.result;
             resolve(contenido);
         };
-        lector.onerror = function(e) {
+        lector.onerror = function (e) {
             reject('Error al leer el archivo');
         };
         lector.readAsText(archivo);
     });
 }
+
+
+// Función para abrir el modal
+function openModal(rexml) {
+    document.getElementById("myModal").style.display = "block";
+    // agregar saltos de línea al XML
+    rexml = rexml.replace(/></g, ">\n<");
+    document.getElementById("respuesta").innerHTML = rexml;
+
+}
+
+// Función para cerrar el modal
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+    window.location.reload();
+}
+
+function formatXML(xmlString) {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+    const formattedXML = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+    return formattedXML;
+  }
