@@ -22,8 +22,7 @@ def index():
             res_bancos.append({
                 "codBanco": banco.codigo,
                 "nombre": banco.nombre,
-                "saldo": banco.saldo,
-                "transacciones": banco.transacciones
+                "saldo": banco.saldo
             })
 
         dic_res = {
@@ -41,12 +40,38 @@ def index():
         return dicttoxml.dicttoxml(dic_res, custom_root="respuesta", attr_type=False), 500, {'Content-Type': 'application/xml'}
 
 
+@bancos_bp.route('/<id>', methods=['GET'])
+def buscar_banco(id):
+    try:
+        id = int(id)
+        banco = buscar_banco(id)
+        if banco is None:
+            dic_res = {
+                "error": "No se encontró el banco con el código " + str(id)
+            }
+            return dicttoxml.dicttoxml(dic_res, custom_root="respuesta", attr_type=False), 404, {'Content-Type': 'application/xml'}
+        dic_res = {
+            "codBanco": banco.codigo,
+            "nombre": banco.nombre,
+            "saldo": banco.saldo,
+            "transacciones": buscar_transacciones_de_banco(banco.codigo)
+        }
+        dic_xml = dicttoxml.dicttoxml(
+            dic_res, custom_root="respuesta", attr_type=False)
+        dic_xml = dic_xml.replace(b'item', b'transaccion')
+        return dic_xml, 200, {'Content-Type': 'application/xml'}
+    except Exception as e:
+        dic_res = {
+            "error": str(e)
+        }
+        return dicttoxml.dicttoxml(dic_res, custom_root="respuesta", attr_type=False), 500, {'Content-Type': 'application/xml'}
+
+
 @bancos_bp.route('/', methods=['POST'])
 def buscar_banco_fecha():
     try:
         data = xmltodict.parse(request.data)
         fecha = data['banco']['fecha']
-        print(fecha)
         lista_bancos = obtener_ingresos_por_fecha(fecha)
         dic_xml = dicttoxml.dicttoxml(
             lista_bancos, custom_root="respuesta", attr_type=False, item_func=lambda x: 'ingreso' if x == 'ingresos' else 'bancos')
@@ -59,7 +84,7 @@ def buscar_banco_fecha():
 
 
 @bancos_bp.route('/<codBanco>', methods=['POST'])
-def buscar_banco(codBanco):
+def buscar_banco_por_cod(codBanco):
     try:
         data = xmltodict.parse(request.data)
         fecha = data['banco']['fecha']
@@ -163,13 +188,14 @@ def obtener_ingresos_por_fecha(fecha: str):
             for transaccion in app.config['db_transacciones']:
                 if isinstance(transaccion, Pago):
                     transaccion: Pago
-                    transaccion_fecha = datetime.strptime(transaccion.fecha, '%d/%m/%Y') # Convert the date format temporarily
+                    # Convert the date format temporarily
+                    transaccion_fecha = datetime.strptime(
+                        transaccion.fecha, '%d/%m/%Y')
 
                     if mes <= transaccion_fecha <= mes + timedelta(days=31):
                         ingreso_mes["valor"] += transaccion.valor
 
             ingresos_banco["ingresos"].append(ingreso_mes)
-            
 
         saldo_final = ingresos_banco["saldo_final"]
         for ingreso_mes in ingresos_banco["ingresos"]:
@@ -178,6 +204,19 @@ def obtener_ingresos_por_fecha(fecha: str):
         ingresos_banco["saldo_final"] = saldo_final
 
         lista_ingresos_por_banco.append(ingresos_banco)
-        
 
     return lista_ingresos_por_banco
+
+
+def buscar_transacciones_de_banco(codBanco: int):
+    lista_transacciones = []
+    for transaccion in app.config['db_transacciones']:
+        if isinstance(transaccion, Pago):
+            transaccion: Pago
+            if transaccion.codBanco == codBanco:
+                lista_transacciones.append({
+                    "NITcliente": transaccion.nitCliente,
+                    "fecha": transaccion.fecha,
+                    "valor": transaccion.valor,
+                })
+    return lista_transacciones

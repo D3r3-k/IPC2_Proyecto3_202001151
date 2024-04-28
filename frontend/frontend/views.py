@@ -48,8 +48,12 @@ def cliente(request, id):
         cliente = data['respuesta']
 
         # ordenar lista de transacciones por fecha de mas reciente a mas antigua cuando la fecha guardada es un string en formato 'dd/mm/yyyy'
-        transacciones = cliente['transacciones']['transaccion']
-        transacciones.sort(key=lambda x: datetime.datetime.strptime(x['fecha'], '%d/%m/%Y'), reverse=True)
+        if cliente['transacciones'] is not None:
+            transacciones = cliente['transacciones']['transaccion']
+            if not isinstance(transacciones, list):
+                cliente['transacciones']['transaccion'] = [transacciones]
+            else:
+                transacciones.sort(key=lambda x: datetime.datetime.strptime(x['fecha'], '%d/%m/%Y'), reverse=True)
 
         return render(request, 'views/cliente.html', {'cliente': cliente})
     except Exception as e:
@@ -58,16 +62,39 @@ def cliente(request, id):
 
 def bancos(request):
     try:
-        return render(request, 'bancos.html')
+        res = requests.get('http://localhost:5000/api/v1/bancos')
+        # obtener el xml
+        response = res.content
+        # convertir el xml a un diccionario
+        data = xmltodict.parse(response)
+        bancos = data['respuesta']['bancos']['banco']
+        return render(request, 'bancos.html', {'bancos': bancos})
     except Exception as e:
         return render(request, 'bancos.html')
 
 
 def banco(request, id):
     try:
-        return render(request, 'views/banco.html')
+        res = requests.get(f'http://localhost:5000/api/v1/bancos/{id}')
+        # obtener el xml
+        response = res.content
+        # convertir el xml a un diccionario
+        data = xmltodict.parse(response)
+        # obtener cliente
+        banco = data['respuesta']
+
+        # ordenar lista de transacciones por fecha de mas reciente a mas antigua cuando la fecha guardada es un string en formato 'dd/mm/yyyy'
+        if banco['transacciones'] is not None:
+            transacciones = banco['transacciones']['transaccion']
+            if not isinstance(transacciones, list):
+                banco['transacciones']['transaccion'] = [transacciones]
+            else:
+                transacciones.sort(key=lambda x: datetime.datetime.strptime(x['fecha'], '%d/%m/%Y'), reverse=True)
+
+
+        return render(request, 'views/banco.html', {'banco': banco})
     except Exception as e:
-        return render(request, 'views/banco.html')
+        return render(request, 'views/banco.html', {'error': str(e)})
 
 
 def consultas(request):

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{% include 'components/head.html' with title="Datos del cliente | ITGSA" %}
+{% include 'components/head.html' with title="Datos del banco | ITGSA" %}
 
 <body>
     <div class="main">
@@ -11,7 +11,7 @@
             {% include 'components/header.html' %}
             <main class="datos">
                 <div id="regresar">
-                    <a href="/clientes/">
+                    <a href="/bancos/">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-arrow-left-short" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -24,9 +24,9 @@
                     <h2>Información</h2>
                     <div class="card printer">
                         <div class="card-body">
-                            <p><strong>NIT:</strong> {{cliente.nit}}</p>
-                            <p><strong>Nombre:</strong> {{cliente.nombre}}</p>
-                            <p><strong>Saldo:</strong> {{cliente.saldo}}</p>
+                            <p><strong>Código:</strong> {{banco.codBanco}}</p>
+                            <p><strong>Nombre:</strong> {{banco.nombre}}</p>
+                            <p><strong>Saldo:</strong> {{banco.saldo}}</p>
                         </div>
                         <div class="printer_button">
                             <img src="{% static 'images/logo/logo-black.svg' %}" alt="">
@@ -48,40 +48,23 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Tipo</th>
-                                        <th>Código</th>
-                                        <th>Cargo</th>
-                                        <th>Abono</th>
+                                        <th>NIT cliente</th>
+                                        <th>Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if cliente.transacciones.transaccion|length > 0 %}
-                                    {% for t in cliente.transacciones.transaccion %}
-                                    <tr>
-                                        <td>{{ t.fecha }}</td>
-                                        <td>{{ t.tipo }}</td>
-                                        {% if t.tipo == 'Factura' %}
-                                        <td>{{ t.numFactura }}</td>
-                                        <!-- else if -->
-                                        {% else %}
-                                        <td>{{ t.codigoBanco }}</td>
-                                        {% endif %}
-                                        {% if t.tipo == 'Factura' %}
-                                        <td style="color: crimson;">{{ t.valor }}</td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                        {% if t.tipo == 'Pago' %}
-                                        <td style="color: rgb(30, 179, 0);">{{ t.valor }}</td>
-                                        {% else %}
-                                        <td></td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
+                                    {% if banco.transacciones.transaccion|length > 0 %}
+                                        {% for t in banco.transacciones.transaccion %}
+                                        <tr>
+                                            <td>{{ t.fecha }}</td>
+                                            <td>{{ t.NITcliente }}</td>
+                                            <td style="color: rgb(30, 179, 0);">{{ t.valor }}</td>
+                                        </tr>
+                                        {% endfor %}
                                     {% else %}
-                                    <tr>
-                                        <td colspan="5">No hay transacciones</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="3">No hay transacciones</td>
+                                        </tr>
                                     {% endif %}
                                 </tbody>
                             </table>

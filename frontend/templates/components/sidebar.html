@@ -2,7 +2,7 @@
 <aside>
     <!-- SIDEBAR HEADER -->
     <div class="header">
-        <a class="link" href="index.html">
+        <a class="link" href="/">
             <img src="{% static 'images/logo/logo.svg' %}" alt="Logo">
         </a>
     </div>
@@ -35,7 +35,7 @@
                             Inicio
                         </a>
                     </li>
-                    <li {% if request.path == '/clientes/' %} class="active" {% endif %}>
+                    <li {% if '/clientes' in request.path  %} class="active" {% endif %}>
                         <a href="/clientes/">
                             <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,7 @@
                             Clientes
                         </a>
                     </li>
-                    <li {% if request.path == '/bancos/' %} class="active" {% endif %}>
+                    <li {% if '/bancos' in request.path %} class="active" {% endif %}>
                         <a href="/bancos/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-bank2" viewBox="0 0 16 16">

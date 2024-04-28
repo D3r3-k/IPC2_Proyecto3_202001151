@@ -24,11 +24,15 @@ form_delete.addEventListener('submit', async (e) => {
             })
             .then(data => {
                 const xml = formatXML(data);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
             .catch(error => {
                 const xml = formatXML(error);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
     }
     fetchData();
@@ -56,11 +60,15 @@ form_config.addEventListener('submit', async (e) => {
             })
             .then(data => {
                 const xml = formatXML(data);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
             .catch(error => {
                 const xml = formatXML(error);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
     }
     await fetchData();
@@ -88,11 +96,15 @@ form_update.addEventListener('submit', async (e) => {
             })
             .then(data => {
                 const xml = formatXML(data);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
             .catch(error => {
                 const xml = formatXML(error);
-                openModal(xml);
+                const arr_xml = xml.split('\n');
+                const prettyXml = prettifyXml(arr_xml.join('\n'));
+                openModal(prettyXml);
             })
     }
     await fetchData();
@@ -120,8 +132,6 @@ function leerArchivo(archivo) {
 // Función para abrir el modal
 function openModal(rexml) {
     document.getElementById("myModal").style.display = "block";
-    // agregar saltos de línea al XML
-    rexml = rexml.replace(/></g, ">\n<");
     document.getElementById("respuesta").innerHTML = rexml;
 
 }
@@ -137,4 +147,25 @@ function formatXML(xmlString) {
     const xmlDoc = parser.parseFromString(xmlString, "text/xml");
     const formattedXML = new XMLSerializer().serializeToString(xmlDoc.documentElement);
     return formattedXML;
-  }
+}
+var prettifyXml = function (sourceXml) {
+    var xmlDoc = new DOMParser().parseFromString(sourceXml, 'application/xml');
+    var xsltDoc = new DOMParser().parseFromString([
+        '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
+        '  <xsl:strip-space elements="*"/>',
+        '  <xsl:template match="para[content-style][not(text())]">', 
+        '    <xsl:value-of select="normalize-space(.)"/>',
+        '  </xsl:template>',
+        '  <xsl:template match="node()|@*">',
+        '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
+        '  </xsl:template>',
+        '  <xsl:output indent="yes"/>',
+        '</xsl:stylesheet>',
+    ].join('\n'), 'application/xml');
+
+    var xsltProcessor = new XSLTProcessor();
+    xsltProcessor.importStylesheet(xsltDoc);
+    var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+    var resultXml = new XMLSerializer().serializeToString(resultDoc);
+    return resultXml;
+};

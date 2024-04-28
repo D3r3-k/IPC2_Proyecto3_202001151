@@ -323,6 +323,8 @@ def delete():
     try:
         app.config['db_clientes'] = []
         app.config['db_bancos'] = []
+        app.config['db_transacciones'] = []
+        
         dic_res = {
             "mensaje": "Se eliminaron todos los clientes y bancos"
         }

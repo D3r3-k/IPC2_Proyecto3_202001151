@@ -1,7 +1,13 @@
+{% load static %}
+
 <div id="myModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Respuesta</h2>
-        <textarea name="respuesta" id="respuesta" cols="30" rows="10" readonly></textarea>
+        <div class="res-head">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Respuesta</h2>
+        </div>
+        <div class="res-area">
+            <textarea readonly id="respuesta"></textarea>
+        </div>
     </div>
 </div>

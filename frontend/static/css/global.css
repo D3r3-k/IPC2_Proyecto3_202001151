@@ -659,6 +659,8 @@ header {
 
 /* Estilos del contenido del modal */
 .modal-content {
+    display: flex;
+    flex-direction: column;
     background-color: #fefefe;
     margin: 15% auto;
     /* Centrar verticalmente el modal */
@@ -666,35 +668,51 @@ header {
     border: 1px solid #888;
     width: 80%;
     height: 50%;
+    border-radius: 1rem;
 
-    textarea {
+    .res-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: 100%;
-        padding: 12px 20px;
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        background-color: #f8f8f8;
-        resize: none;
-        border-color: #E5E7EB;
+        overflow: hidden;
 
+        textarea#respuesta {
+            width: 100%;
+            height: 100%;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #64748B;
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 400;
+            border: none;
+            outline: none;
+        }
     }
+
+    .res-head {
+        padding: 0.5rem 0;
+        /* Estilos del botón de cierre del modal */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
 }
 
-/* Estilos del botón de cierre del modal */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
 
 /* tabla */
 table {
@@ -792,6 +810,7 @@ input#search {
     #regresar {
         display: none;
     }
+
     .printer_button {
         display: none;
     }
@@ -840,15 +859,17 @@ input#search {
 }
 
 
-.section.graficar{
+.section.graficar {
     display: flex;
     flex-direction: column;
-    form{
+
+    form {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-top: 1rem;
-        input{
+
+        input {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             background-color: #F9FAFB;
@@ -859,6 +880,7 @@ input#search {
             border: none;
             outline: none;
         }
+
         button {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
