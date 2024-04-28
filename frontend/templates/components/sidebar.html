@@ -70,7 +70,7 @@
                             Consultas
                         </a>
                     </li>
-                    <li {% if request.path == '/ayuda/' %} class="active" {% endif %}>
+                    <li {% if request.path == '/ayuda/' or request.path == '/ayuda/datos/' %} class="active" {% endif %}>
                         <a href="/ayuda/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-question-lg" viewBox="0 0 16 16">
@@ -83,8 +83,6 @@
                 </ul>
             </div>
         </nav>
-        <!-- Sidebar Menu -->
-
-
+        
     </div>
 </aside>

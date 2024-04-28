@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'components/head.html' with title="Datos del Estudiante | ITGSA" %}
+
+<body>
+    <div class="main">
+        {% include 'components/sidebar.html' %}
+        <article>
+            {% include 'components/header.html' %}
+            <main class="datos">
+                <div>
+                    <a href="/ayuda/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                        </svg>
+                    </a>
+                    <h1>Datos del Estudiante</h1>
+                </div>
+                <section class="profile">
+                    <div class="header">
+                        <img src="{% static 'images/cover-01.png' %}" alt="profile cover">
+                    </div>
+                    <div class="body">
+                        <div class="profile-img">
+                            <div>
+                                <img src="https://avatars.githubusercontent.com/u/49821363?v=4" alt="profile">
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3>Derek Francisco Orellana Ibáñez</h3>
+                            <p>202001151</p>
+                            <div>
+                                <div>
+                                    LAB IPC2
+                                </div>
+                                <div>
+                                    SECCIÓN N
+                                </div>
+                                <div>
+                                    2024
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </article>
+    </div>
+</body>
+
+</html>

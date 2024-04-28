@@ -1,6 +1,5 @@
 class Banco:
-    def __init__(self, codBanco: str, nombre: str, saldo: float = 0, transacciones: list = []):
-        self.codBanco = codBanco
+    def __init__(self, codigo: str, nombre: str, saldo: float = 0):
+        self.codigo = codigo
         self.nombre = nombre
         self.saldo = saldo
-        self.transacciones = transacciones

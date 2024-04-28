@@ -152,6 +152,7 @@ article {
     main {
         padding: 2rem;
         height: 100%;
+
         .body {
             .grid-cards {
                 display: grid;
@@ -349,7 +350,7 @@ header {
         gap: 1rem;
         width: 100%;
 
-        .icon{
+        .icon {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -391,7 +392,7 @@ header {
                 color: #FF5B5B;
             }
 
-            &::before{
+            &::before {
                 content: "";
                 display: inline-block;
                 width: 0;
@@ -402,7 +403,7 @@ header {
                 border-left: 1.5rem solid transparent;
                 border-bottom: 1.5rem solid #FF5B5B;
                 transform: rotate(180deg);
-                
+
             }
         }
 
@@ -421,25 +422,27 @@ header {
     }
 }
 
-.center-display{
+.center-display {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
 
-    div{
+    div {
         display: grid;
         grid-template-columns: repeat(2, minmax(20rem, 1fr));
         gap: 1.5rem;
-        .card{
+
+        .card {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-decoration: none;
             transition: background-color 0.3s;
-            h2{
+
+            h2 {
                 font-size: 1.5rem;
                 line-height: 2rem;
                 font-weight: bold;
@@ -447,18 +450,187 @@ header {
                 text-align: center;
 
             }
-            &:hover{
+
+            &:hover {
                 background-color: #F9FAFB;
 
-                h2{
+                h2 {
                     color: #5D86F0;
                 }
             }
-            svg{
+
+            svg {
                 fill: #64748B;
                 width: 64px;
                 height: 64px;
             }
         }
     }
+}
+
+.datos {
+    padding: 2rem 3.5rem;
+
+    >div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        >a {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: #5D86F0;
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            transition: transform 0.3s;
+
+            svg {
+                fill: #5D86F0;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            &:hover {
+                transform: translateX(0.3rem);
+            }
+
+        }
+    }
+}
+
+.profile {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(226, 232, 240, 1);
+    border-width: 1px;
+    border-radius: 0.125rem;
+    overflow: hidden;
+    margin-top: 1rem;
+
+    .header {
+        position: relative;
+        z-index: 20;
+        height: 16.25rem;
+
+        img {
+            object-fit: cover;
+            object-position: center;
+            border-top-left-radius: 0.125rem;
+            border-top-right-radius: 0.125rem;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 1.5rem;
+        text-align: center;
+
+        .profile-img {
+            position: relative;
+            padding: 1rem;
+            border-radius: 9999px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 30;
+            margin-top: -5rem;
+            width: 10rem;
+            height: 10rem;
+            backdrop-filter: blur(10px);
+
+            div {
+                position: relative;
+
+                img {
+                    border-radius: 9999px;
+                    max-width: 100%;
+                    height: auto;
+                }
+            }
+        }
+
+        .content {
+            margin-top: 1rem;
+
+            h3 {
+                color: rgb(28 36 52 / 1);
+                margin-bottom: 0.375rem;
+                font-size: 1.5rem;
+                line-height: 2rem;
+                font-weight: 500;
+            }
+
+            p {
+                font-weight: 500;
+            }
+
+            >div {
+                display: grid;
+                padding-top: 0.625rem;
+                padding-bottom: 0.625rem;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                border-radius: 0.375rem;
+                border-width: 1px;
+                border-color: rgba(226, 232, 240, 1);
+                max-width: 23.5rem;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 1rem;
+
+                div {
+                    display: flex;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    flex-direction: column;
+                    gap: 0.25rem;
+                    justify-content: center;
+                    align-items: center;
+                    border-right-width: 1px;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
+                    border-color: rgba(226, 232, 240, 1);
+
+                    &:last-child {
+                        border-right-width: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.borrar {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem;
+
+    >div {
+        max-width: calc(100% / 3);
+
+        form {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+
+            button {
+                padding: 0.5rem 1rem;
+                border-radius: 0.375rem;
+                background-color: #FF5B5B;
+                color: #ffffff;
+                font-size: 1rem;
+                line-height: 1.5rem;
+                font-weight: 500;
+                cursor: pointer;
+                border: none;
+                outline: none;
+            }
+        }
+    }
+
 }

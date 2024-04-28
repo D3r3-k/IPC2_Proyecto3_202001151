@@ -29,9 +29,9 @@ def clientes(request):
 
 def cliente(request, id):
     try:
-        return render(request, 'cliente.html')
+        return render(request, 'views/cliente.html')
     except Exception as e:
-        return render(request, 'cliente.html')
+        return render(request, 'views/cliente.html')
     
 
 def bancos(request):
@@ -43,9 +43,9 @@ def bancos(request):
 
 def banco(request, id):
     try:
-        return render(request, 'banco.html')
+        return render(request, 'views/banco.html')
     except Exception as e:
-        return render(request, 'banco.html')
+        return render(request, 'views/banco.html')
     
 def consultas(request):
     try:
@@ -58,3 +58,9 @@ def ayuda(request):
         return render(request, 'ayuda.html')
     except Exception as e:
         return render(request, 'ayuda.html')
+    
+def datos(request):
+    try:
+        return render(request, 'views/datos.html')
+    except Exception as e:
+        return render(request, 'views/datos.html')

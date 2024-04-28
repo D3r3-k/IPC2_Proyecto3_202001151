@@ -26,6 +26,8 @@ urlpatterns = [
     path('bancos/<int:id>/', views.bancos, name='banco'),
     path('consultas/', views.consultas, name='consultas'),
     path('ayuda/', views.ayuda, name='ayuda'),
+    path('ayuda/datos/', views.datos, name='datos'),
+    path('admin/', admin.site.urls),
 
 
 ]
