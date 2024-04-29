@@ -88,6 +88,7 @@ def buscar_banco_por_cod(codBanco):
     try:
         data = xmltodict.parse(request.data)
         fecha = data['banco']['fecha']
+        print(fecha)
         codBanco = int(codBanco)
         _banco = buscar_banco(codBanco)
         res_banco = None
@@ -125,7 +126,14 @@ def buscar_banco(codigo: int):
 
 
 def obtener_ingresos_por_banco(fecha: str, banco: Banco):
-    fecha = datetime.strptime(fecha, '%d/%m/%Y')
+    ingresos_banco = {
+        "banco": banco.codigo,
+        "nombre": banco.nombre,
+        "ingresos": [],
+        "saldo_final": 0
+    }
+    
+    fecha = datetime.strptime(fecha, '%Y-%m')
     meses = []
     for i in range(3):
         mes = fecha.month - i
@@ -134,28 +142,34 @@ def obtener_ingresos_por_banco(fecha: str, banco: Banco):
             mes += 12
             año -= 1
         meses.append(datetime(año, mes, 1))
-
-    lista_ingresos = []
-
+    
     for mes in meses:
         mes_str = mes.strftime('%B')
+
         ingreso_mes = {
             "mes": mes_str,
-            "fechas": [],
             "valor": 0
         }
 
-        for transaccion in app.config['db_transacciones']:
-            if isinstance(transaccion, Pago):
-                transaccion: Pago
-                transaccion_fecha = datetime.strptime(
-                    transaccion.fecha, '%d/%m/%Y')
-                if transaccion.codBanco == banco.codigo and mes <= transaccion_fecha <= mes + timedelta(days=31):
-                    ingreso_mes["fecha"].append(transaccion.fecha)
-                    ingreso_mes["valor"] += transaccion.valor
-        lista_ingresos.append(ingreso_mes)
+        for transaction in app.config['db_transacciones']:
+            if isinstance(transaction, Pago):
+                transaction: Pago
+                # Convert the date format temporarily
+                transaction_fecha = datetime.strptime(
+                    transaction.fecha, '%d/%m/%Y')
 
-    return lista_ingresos
+                if mes <= transaction_fecha <= mes + timedelta(days=31):
+                    ingreso_mes["valor"] += transaction.valor
+
+        ingresos_banco["ingresos"].append(ingreso_mes)
+
+    saldo_final = ingresos_banco["saldo_final"]
+    for ingreso_mes in ingresos_banco["ingresos"]:
+        saldo_final += ingreso_mes["valor"]
+
+    ingresos_banco["saldo_final"] = saldo_final
+
+    return ingresos_banco["ingresos"]
 
 
 def obtener_ingresos_por_fecha(fecha: str):
